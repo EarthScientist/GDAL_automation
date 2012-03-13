@@ -1,9 +1,7 @@
 #!/bin/bash
-SHPFILE=$1
-BASE=`basename $SHPFILE .shp`
-EXTENT=`ogrinfo -so $SHPFILE $BASE | grep Extent \
-| sed 's/Extent: //g' | sed 's/(//g' | sed 's/)//g' \
-| sed 's/ - /, /g'`
+SHPFILE=$1 # the shapefile variable
+BASE=`basename $SHPFILE .shp` # lets get the shapefile name without the path
+EXTENT=`ogrinfo -so $SHPFILE $BASE | grep Extent | sed 's/Extent: //g' | sed 's/(//g' | sed 's/)//g' | sed 's/ - /, /g'`
 EXTENT=`echo $EXTENT | awk -F ',' '{print $1 " " $4 " " $3 " " $2}'`
 echo "Clipping to $EXTENT"
 RASTERFILE=$2
